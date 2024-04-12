@@ -42,24 +42,25 @@ public final class GameEngine {
     private final Set<Sprite> cleanUpSprites = new HashSet<>();
     private final Stage stage;
     private StatusBar statusBar;
-    private boolean modeScore = false;
-    private boolean mode2Players = false;
+    private final boolean modeScore;
+    private final boolean mode2Players ;
 
     private Pane layer;
     private Input input;
-    private int currentLevel ;
+    private final int currentLevel ;
     private boolean up = true;
     private  boolean down = true;
 
     private boolean levelLast = false;
     private boolean request = false;
+    private boolean request2 = false;
     private boolean end = false;
 
 
-    private Timer timerMonster;
-    private Timer timePlayerBless;
+    private final Timer timerMonster;
+    private final Timer timePlayerBless;
     private Timer timePlayerBless2;
-    private Timer timeCreatMonster = new Timer(10000);
+    private final Timer timeCreatMonster = new Timer(10000);
     private boolean ret;
 
     public GameEngine(Game game, final Stage stage, int currentLevel,boolean modeScore, boolean mode2Players) {
@@ -74,9 +75,9 @@ public final class GameEngine {
         // Initialisation of the monster's life, level ++, speed ++
         if(currentLevel == 1) {
             // Depends on monsterVelocity
-            timerMonster = new Timer(game.configuration().monsterVelocity()*1000);
+            timerMonster = new Timer(game.configuration().monsterVelocity()* 1000L);
         }else {
-            timerMonster = new Timer(game.configuration().monsterVelocity() * 1000 / currentLevel + 1000);
+            timerMonster = new Timer(game.configuration().monsterVelocity() * 1000L / currentLevel + 1000);
         }
         // Initialisation of the monster's life, level += 2, life += 1
         for (var monster : game.grid().values()){
@@ -175,8 +176,7 @@ public final class GameEngine {
     Queue<Map.Entry> queueMapTB = new LinkedList<>();
     Queue<Map.Entry> queueMapTB2 = new LinkedList<>();
 
-    private void createNewBombs(long now) {
-
+    private void createNewBombs(Player player, long now) {
 
         Bomb bomb = new Bomb(player.getPosition());
         Timer timer = new Timer(4000);
@@ -194,22 +194,7 @@ public final class GameEngine {
 
     }
 
-    private void createNewBombsForPlayer2(long now) {
-        Bomb bomb = new Bomb(player2.getPosition());
-        Timer timer = new Timer(4000);
-        sprites.add(new SpriteBomb(layer,bomb));
 
-        //setTimer
-        Map.Entry<Timer,Bomb> entryTB2 = new AbstractMap.SimpleEntry<>(timer,bomb);
-        queueMapTB2.add(entryTB2);
-
-        timer.start();
-
-        ImageView bombImage = new ImageView(ImageResourceFactory.getBomb(3).getImage());
-        sprites.add(new Sprite(layer,bombImage.getImage(),bomb));
-        game.grid().set(bomb.getPosition(),bomb);
-
-    }
 
     private void checkAnimateExplosion(Bomb bomb, int range,long now){
         // If something bloque
@@ -367,45 +352,40 @@ public final class GameEngine {
         else animateExplosion(bomb.getPosition(), new Position(lastDown.x(), 0));
 
         // If player is in the range of explosion, his life will -1
-        operationHurtPlayer(player.getPosition(),lastLeft.x(),lastRight.x(),bomb.getPosition().y(),lastUp.y(),lastDown.y(),bomb.getPosition().x());
-        if(player2!=null) operationHurtPlayer(player2.getPosition(),lastLeft.x(),lastRight.x(),bomb.getPosition().y(),lastUp.y(),lastDown.y(),bomb.getPosition().x());
-
-    }
-
-    private void operationHurtPlayer(Position position, int x, int x1, int y, int y1, int y2, int x2) {
-        if(hurtPlayer(player.getPosition(),x,x1,y,y1,y2,x2)){
+        if(hurtPlayer(player.getPosition(),lastLeft.x(),lastRight.x(),bomb.getPosition().y(),lastUp.y(),lastDown.y(),bomb.getPosition().x())){
             if(!player.isInvicility()){
                 player.setInvicility(true);
                 player.setBless(true);
                 player.setModified(true);
             }
         }
+        if(player2!=null) {
+            if(hurtPlayer(player2.getPosition(),lastLeft.x(),lastRight.x(),bomb.getPosition().y(),lastUp.y(),lastDown.y(),bomb.getPosition().x())){
+                if(!player2.isInvicility()){
+                    player2.setInvicility(true);
+                    player2.setBless(true);
+                    player2.setModified(true);
+                }
+            }
+        }
     }
 
-    private boolean hurtPlayer(Position player, int xleft, int xright,int y,  int yup, int ydown, int x) {
+
+    private boolean hurtPlayer(Position playerPosition, int xleft, int xright,int y,  int yup, int ydown, int x) {
         // Check explosions of bombs hurt the player or not
-        boolean ret = false;
-        if((player.y() == y && player.x() >= xleft && player.x()<=xright)||(player.x() == x && player.y() >= ydown && player.y()<=yup)){
-            ret = true;
-        }
-        return  ret;
+        return (playerPosition.y() == y && playerPosition.x() >= xleft && playerPosition.x() <= xright) || (playerPosition.x() == x && playerPosition.y() >= ydown && playerPosition.y() <= yup);
     }
 
 
     private boolean passByExplosion(Decor bloque) {
         // explosion can pass the bonus but not monster not doors not decors
-        boolean ret = false;
-        if(bloque.getClass() == Monster.class || bloque.getClass() == BombNumberInc.class || bloque.getClass() == BombNumberDec.class || bloque.getClass() == BombRangeInc.class || bloque.getClass() == BombRangeDec.class || bloque.getClass() == Heart.class){
-            ret = true;
-        }
-        return ret;
+        return bloque.getClass() == Monster.class || bloque.getClass() == BombNumberInc.class || bloque.getClass() == BombNumberDec.class || bloque.getClass() == BombRangeInc.class || bloque.getClass() == BombRangeDec.class || bloque.getClass() == Heart.class;
     }
 
 
 
     private boolean disappear(Decor bloque) {
-        if(bloque!= null && (bloque.getClass() == Box.class || bloque.getClass() == Monster.class ||bloque.getClass() == BombNumberInc.class || bloque.getClass() == BombNumberDec.class || bloque.getClass() == BombRangeDec.class || bloque.getClass() == BombRangeInc.class || bloque.getClass() == Heart.class)) return true;
-        return false;
+        return bloque != null && (bloque.getClass() == Box.class || bloque.getClass() == Monster.class || bloque.getClass() == BombNumberInc.class || bloque.getClass() == BombNumberDec.class || bloque.getClass() == BombRangeDec.class || bloque.getClass() == BombRangeInc.class || bloque.getClass() == Heart.class);
     }
 
 
@@ -430,25 +410,25 @@ public final class GameEngine {
         }
         else if (input.isMoveUpPlayer2()) {
             if (player2 != null) {
-                request = true;
+                request2 = true;
                 player2.requestMove(Direction.UP);
             }
         }
          else if (input.isMoveDownPlayer2()) {
             if(player2 != null) {
-                request = true;
+                request2 = true;
                 player2.requestMove(Direction.DOWN);
             }
         }
         else if (input.isMoveLeftPlayer2()) {
             if(player2 != null) {
-                request = true;
+                request2 = true;
                 player2.requestMove(Direction.LEFT);
             }
         }
         else if (input.isMoveRightPlayer2()) {
             if(player2 != null) {
-                request = true;
+                request2 = true;
                 player2.requestMove(Direction.RIGHT);
             }
         }
@@ -464,9 +444,9 @@ public final class GameEngine {
                 player.setKeys(player.getKeys()-1);
             }
         }else if(input.isBomb()&&/* package of bombs */(queueMapTB.size() < player.getBombs()) && /*put only at the empty*/  game.grid().get(player.getPosition()) == null ){
-            createNewBombs(now);
+            createNewBombs(player,now);
         }else if(player2 != null && input.isBombPlayer2() && queueMapTB2.size() <player2.getBombs() && game.grid().get(player2.getPosition()) == null){
-            createNewBombsForPlayer2(now);
+            createNewBombs(player2,now);
         }
         else if (input.isBomb() && end) {
             // tant qu'on gagne ou échoue, on tape ESPACE le jeu va se finir
@@ -558,13 +538,13 @@ public final class GameEngine {
 
             // The detail for moving the box, when we forward the box but we dont push, the box dont move
             if(nextDecorPlayer2 != null){
-                if(request && nextDecorPlayer2.getClass() != Box.class) {
+                if(request2 && nextDecorPlayer2.getClass() != Box.class) {
                     player2.update(now);
-                    request = false;
+                    request2 = false;
                 }
             }else {
                 player2.update(now);
-                request = false;
+                request2 = false;
             }
         }
 
@@ -572,21 +552,22 @@ public final class GameEngine {
         if(mode2Players){
             if (player.getLives() == 0) {
                 gameLoop.stop();
-                showMessage("Perdu Player1, Winner : Player2!", Color.RED);
+                showMessage("Winner : Player2!", Color.RED);
                 end = true;
             }
 
             if (player2 != null && player2.getLives() == 0) {
                 gameLoop.stop();
-                showMessage("Perdu Player2, Winner : Player1!", Color.RED);
+                showMessage("Winner : Player1!", Color.RED);
                 end = true;
             }
         }
-
-        if (player.getLives() == 0 || (modeScore && (player.getScores() < 0))) {
-            gameLoop.stop();
-            showMessage("Perdu!", Color.RED);
-            end = true;
+        else {
+                if (player.getLives() == 0 || (modeScore && (player.getScores() < 0))) {
+                gameLoop.stop();
+                showMessage("Perdu!", Color.RED);
+                end = true;
+            }
         }
 
         // Implementation of winning
@@ -709,7 +690,7 @@ public final class GameEngine {
             Decor nextPos2 = game.grid().get(player2.getDirection().nextPosition(player2.getPosition()));
 
             // Implementation of push the box
-            if (request && nextPos2 != null && nextPos2.getClass() == Box.class ) {
+            if (request2 && nextPos2 != null && nextPos2.getClass() == Box.class ) {
                 Direction direction = player2.getDirection();
                 // La condition c'est s'il y a  de bonus ou decor derrière de caisse, il peut pas bouger
                 boolean condition1 = game.grid().get(direction.nextPosition(nextPos2.getPosition())) != null;
@@ -734,7 +715,7 @@ public final class GameEngine {
 
                     box.setModified(true);
                 }
-                request = false;
+                request2 = false;
             }
         }
 
@@ -743,8 +724,8 @@ public final class GameEngine {
         // Implementation of Bomb by using the queue of entry<Timer,Bomb>
 
         checkQueueEntryTimer();
-        operationCheckQueue(queueMapTB,now);
-        if(player2 != null) operationCheckQueue(queueMapTB2,now);
+        operationCheckQueue(queueMapTB,this.player,now);
+        if(player2 != null) operationCheckQueue(queueMapTB2,this.player2,now);
         checkQueueEntryTimer();
 
         // Implementation of moving of the monster
@@ -820,7 +801,7 @@ public final class GameEngine {
 
     }
 
-    private void operationCheckQueue(Queue<Map.Entry> queueMapTB, long now) {
+    private void operationCheckQueue(Queue<Map.Entry> queueMapTB,Player player, long now) {
         for(Map.Entry entry: queueMapTB){
 
             if(entry.getKey()!= null) {
@@ -874,6 +855,9 @@ public final class GameEngine {
     private void checkQueueEntryTimer() {
         if(queueMapTB.peek() != null && !((Timer)queueMapTB.peek().getKey()).isRunning()){
             queueMapTB.remove();
+        }
+        if(queueMapTB2.peek() != null && !((Timer)queueMapTB2.peek().getKey()).isRunning()){
+            queueMapTB2.remove();
         }
     }
 

@@ -27,12 +27,14 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     private boolean bless = false;
     private boolean go_upstairs = false;
     private boolean go_downstairs = false;
+    private final boolean player1;
     private boolean win = false;
     private boolean invicility = false;
     private final long timeInvicility =game.configuration().playerInvisibilityTime();
 
     public Player(Game game, Position position, boolean player1) {
         super(game, position);
+        this.player1 = player1;
         this.direction = Direction.DOWN;
         if(player1) {
             this.lives = game.configuration().playerLives();
@@ -127,7 +129,12 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     public void doMove(Direction direction) {
         // This method is called only if the move is possible, do not check again
         Position nextPos = direction.nextPosition(getPosition());
+
         GameObject next = game.grid().get(nextPos);
+
+        if(next != null) System.out.println("Player: " + (player1 ? "Player1" : "Player2") + " trying to move " + direction + " to " + nextPos + " walkable: " + (nextPos == null ? "null" : next.walkableBy(this)));
+        else System.out.println("Player: " + (player1 ? "Player1" : "Player2") + " trying to move " + direction + " to " + nextPos);
+
         if (next instanceof Takeable takeable) {
                 takeable.takenBy(this);
         }
@@ -153,6 +160,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     public final boolean canMove(Direction direction) {
 
+
         boolean ret = true;
         // Vérification de border
         boolean cantMoveBorder = (direction == Direction.LEFT && this.getPosition().x() == 0)|| (direction == Direction.UP && this.getPosition().y() == 0) || (direction == Direction.RIGHT && this.getPosition().x() == game.grid().width()-1) || (direction == Direction.DOWN && this.getPosition().y() == game.grid().height()-1);
@@ -168,6 +176,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     public void update(long now) {
         if (moveRequested) {
+            System.out.println("Player: " + (player1 ? "Player1" : "Player2") + " trying to move " + direction);
             if (canMove(direction)) {
                 doMove(direction);
             }
@@ -177,7 +186,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     @Override
     public void explode() {
-        // TODO
+        return;
     }
 
 

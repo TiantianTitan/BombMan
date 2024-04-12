@@ -24,6 +24,10 @@ public class StatusBar {
     private final Text lives = new Text();
     private final Text availableBombs = new Text();
     private final Text bombRange = new Text();
+    private final Text lives2 = new Text();
+    private final Text availableBombs2 = new Text();
+    private final Text bombRange2 = new Text();
+
     private final Text keys = new Text();
     private final Text scores = new Text();
     private final HBox level = new HBox();
@@ -56,9 +60,9 @@ public class StatusBar {
             HBox score = statusGroup(ImageResource.SCORE.getImage(),scores);
             status.getChildren().addAll(live, bombs, range,score);
         } else if (mode2Players) {
-            HBox live2 = statusGroup(ImageResource.HEART.getImage(), this.lives);
-            HBox bombs2 = statusGroup(ImageResource.BANNER_BOMB.getImage(), availableBombs);
-            HBox range2 = statusGroup(ImageResource.BANNER_RANGE.getImage(), bombRange);
+            HBox live2 = statusGroup(ImageResource.HEART.getImage(), this.lives2);
+            HBox bombs2 = statusGroup(ImageResource.BANNER_BOMB.getImage(), availableBombs2);
+            HBox range2 = statusGroup(ImageResource.BANNER_RANGE.getImage(), bombRange2);
             status.getChildren().addAll(live, bombs, range,live2,bombs2,range2);
         } else status.getChildren().addAll(live, bombs, range, key);
 
@@ -86,12 +90,18 @@ public class StatusBar {
 
     public void update(Game game) {
         Player player = game.player();
+        Player player2 = game.player2();
         // Implémentation d'afficher les status
         lives.setText(""+player.getLives());
         bombRange.setText(""+player.getRange());
         availableBombs.setText(""+player.getBombs());
         keys.setText(""+player.getKeys());
         if(modeScore) scores.setText(""+ player.getScores());
+        if(mode2Players){
+            lives2.setText(""+player2.getLives());
+            bombRange2.setText(""+player2.getRange());
+            availableBombs2.setText(""+player2.getBombs());
+        }
 
     }
 }

@@ -10,7 +10,7 @@ public class Game {
 
     private final Configuration configuration;
     private final Configuration configuration2 ;
-    private Player player;
+    private final Player player;
     private Player player2;
     private final Grid grid;
     public String[] stringMaps;
