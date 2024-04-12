@@ -8,19 +8,19 @@ public class Map2Players extends  MapLevel{
     private final static Entity[][] level1 = {
             {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,Empty,Empty,Empty,Empty,Empty},
             {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,Empty,Empty,Empty,Empty,Empty},
-            {Empty, Stone, Stone, Stone, Empty, Tree , Tree , Tree , Empty, Stone, Stone, Stone,Empty, Tree ,Tree ,Tree ,Empty},
-            {Empty, Empty, Empty, Stone, Empty, Tree , Empty, Tree , Empty, Empty, Empty, Stone,Empty,Empty,Empty,Tree ,Empty},
-            {Empty, Empty, Empty, Stone, Empty, Tree , Empty, Tree , Empty, Empty, Empty, Stone,Empty,Empty,Empty,Tree ,Empty},
-            {Empty, Empty, Empty, Stone, Empty, Tree , Empty, Tree , Empty, Empty, Empty, Stone,Empty,Empty,Empty,Tree ,Empty},
-            {Empty, Empty, Empty, Stone, Empty, Tree , Empty, Tree , Empty, Empty, Empty, Stone,Empty,Empty,Empty,Tree ,Empty},
+            {Empty, Stone, Stone, Stone, Empty, Tree , Tree , Tree , Empty, Stone, Stone, Stone,Empty, Tree ,Box ,Tree ,Empty},
+            {Empty, Empty, Empty, Stone, Empty, Tree , Empty, Tree , Empty, Empty, Empty, Stone,Empty,Tree,Box,Tree ,Empty},
+            {Empty, Empty, Empty, Stone, Empty, Tree , Empty, Tree , Empty, Empty, Empty, Stone,Empty,Tree,Box,Tree ,Empty},
+            {Empty, Empty, Empty, Stone, Empty, Tree , Empty, Tree , Empty, Empty, Empty, Stone,Empty,Tree,Box,Tree ,Empty},
+            {Empty, Empty, Empty, Stone, Empty, Tree , Empty, Tree , Empty, Empty, Empty, Stone,Empty,Tree,Box,Tree ,Empty},
             {Empty, Stone, Stone, Stone, Empty, Heart, Empty, Heart, Empty, Stone, Stone, Stone,Empty, Tree ,Tree ,Tree ,Empty},
             {Empty, Stone, Empty, Empty, Empty, Tree , Empty, Tree , Empty, Stone, Empty, Empty,Empty,Empty,Empty,Tree ,Empty},
             {Empty, Stone, Empty, Empty, Empty, Tree , Empty, Tree , Empty, Stone, Empty, Empty,Empty,Empty,Empty,Tree ,Empty},
             {Empty, Stone, Empty, Empty, Empty, Tree , Empty, Tree , Empty, Stone, Empty, Empty,Empty,Empty,Empty,Tree ,Empty},
             {Empty, Stone, Empty, Empty, Empty, Tree , Empty, Tree , Empty, Stone, Empty, Empty, Empty,Empty,Empty,Tree ,Empty},
-            {Empty, Stone, Stone, Stone, Empty, Tree , Tree , Tree , Empty, Stone, Stone, Stone, Empty, Tree ,Tree ,Tree ,Empty},
-            {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,Empty,Empty,Empty,Empty,Empty},
-            {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,Empty,Empty,Empty,Empty,Empty},
+            {Empty, Stone, Stone, Stone, Empty, Tree , Tree , Tree , Empty, Stone, Stone, Stone, Empty, Box ,Box ,Tree ,Box},
+            {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,Empty,Empty,Empty,Box,Empty},
+            {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,Empty,Empty,Box,Empty,Empty},
 
     };
     private final static int width = 17;

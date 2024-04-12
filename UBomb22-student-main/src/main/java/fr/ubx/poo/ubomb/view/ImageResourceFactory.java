@@ -13,6 +13,10 @@ public class ImageResourceFactory {
         if(!bless) return ImageResource.valueOf("PLAYER_" + direction);
         else return ImageResource.valueOf("PLAYER_BLESS_" + direction);
     }
+    public static ImageResource getPlayer2(Direction direction,boolean bless) {
+        if(!bless) return ImageResource.valueOf("PLAYER2_" + direction);
+        else return ImageResource.valueOf("PLAYER2_BLESS_" + direction);
+    }
 
     public static ImageResource getMonster(Direction direction, boolean attack) {
         if(!attack) return ImageResource.valueOf("MONSTER_" + direction);

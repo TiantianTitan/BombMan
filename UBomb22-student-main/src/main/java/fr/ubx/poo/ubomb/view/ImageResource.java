@@ -28,11 +28,24 @@ public enum ImageResource {
     PLAYER_RIGHT("player_right.png"),
     PLAYER_DOWN("player_down.png"),
     PLAYER_LEFT("player_left.png"),
+
+    // Player2
+    PLAYER2_UP("player2_up.png"),
+    PLAYER2_RIGHT("player2_right.png"),
+    PLAYER2_DOWN("player2_down.png"),
+    PLAYER2_LEFT("player2_left.png"),
+
+
     // Player, hurted
     PLAYER_BLESS_UP("player_bless_up.png"),
     PLAYER_BLESS_DOWN("player_bless_down.png"),
     PLAYER_BLESS_LEFT("player_bless_left.png"),
     PLAYER_BLESS_RIGHT("player_bless_right.png"),
+
+    PLAYER2_BLESS_UP("player2_bless_up.png"),
+    PLAYER2_BLESS_DOWN("player2_bless_down.png"),
+    PLAYER2_BLESS_LEFT("player2_bless_left.png"),
+    PLAYER2_BLESS_RIGHT("player2_bless_right.png"),
 
     MONSTER_UP("monster_up.png"),
     MONSTER_RIGHT("monster_right.png"),

@@ -18,8 +18,14 @@ public class SpritePlayer extends Sprite {
     @Override
     public void updateImage() {
         Player player = (Player) getGameObject();
-        Image image = ImageResourceFactory.getPlayer(player.getDirection(),player.isInvicility()).getImage();
-        setImage(image);
+        if(player.isPlayer1()){
+            Image image = ImageResourceFactory.getPlayer(player.getDirection(),player.isInvicility()).getImage();
+            setImage(image);
+        }else {
+            Image image = ImageResourceFactory.getPlayer2(player.getDirection(),player.isInvicility()).getImage();
+            setImage(image);
+        }
+
     }
 }
 

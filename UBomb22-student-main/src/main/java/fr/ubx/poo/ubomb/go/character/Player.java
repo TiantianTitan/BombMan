@@ -29,6 +29,11 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     private boolean go_downstairs = false;
     private final boolean player1;
     private boolean win = false;
+
+    public boolean isPlayer1() {
+        return player1;
+    }
+
     private boolean invicility = false;
     private final long timeInvicility =game.configuration().playerInvisibilityTime();
 

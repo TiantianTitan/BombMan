@@ -459,7 +459,7 @@ public final class GameEngine {
     private void showMessage(String msg, Color color) {
         Text waitingForKey = new Text(msg);
         waitingForKey.setTextAlignment(TextAlignment.CENTER);
-        waitingForKey.setFont(new Font(60));
+        waitingForKey.setFont(new Font(25));
         waitingForKey.setFill(color);
         StackPane root = new StackPane();
         root.getChildren().add(waitingForKey);
@@ -668,8 +668,12 @@ public final class GameEngine {
             boolean condition3 = direction.nextPosition(nextPos.getPosition()).y() < 0;
             boolean condition4 = direction.nextPosition(nextPos.getPosition()).x() > game.grid().width()-1;
             boolean condition5 = direction.nextPosition(nextPos.getPosition()).y() > game.grid().height()-1;
-            // All the conditions
-            boolean allCondition = condition1||condition2||condition3||condition4||condition5;
+            boolean condition6 =
+                    (direction.nextPosition(nextPos.getPosition()).x() == game.player().getPosition().x()
+                            && direction.nextPosition(nextPos.getPosition()).y() == game.player().getPosition().y())
+                            || (direction.nextPosition(nextPos.getPosition()).x() == game.player2().getPosition().x()
+                            && direction.nextPosition(nextPos.getPosition()).y() == game.player2().getPosition().y()); // All the conditions
+            boolean allCondition = condition1||condition2||condition3||condition4||condition5||condition6;
             if (!allCondition) {
                 Position position = direction.nextPosition(nextPos.getPosition());
                 Box box = new Box(position);
@@ -699,8 +703,13 @@ public final class GameEngine {
                 boolean condition3 = direction.nextPosition(nextPos2.getPosition()).y() < 0;
                 boolean condition4 = direction.nextPosition(nextPos2.getPosition()).x() > game.grid().width()-1;
                 boolean condition5 = direction.nextPosition(nextPos2.getPosition()).y() > game.grid().height()-1;
+                boolean condition6 =
+                        (direction.nextPosition(nextPos2.getPosition()).x() == game.player().getPosition().x()
+                        && direction.nextPosition(nextPos2.getPosition()).y() == game.player().getPosition().y())
+                                || (direction.nextPosition(nextPos2.getPosition()).x() == game.player2().getPosition().x()
+                                && direction.nextPosition(nextPos2.getPosition()).y() == game.player2().getPosition().y());
                 // All the conditions
-                boolean allCondition = condition1||condition2||condition3||condition4||condition5;
+                boolean allCondition = condition1||condition2||condition3||condition4||condition5||condition6;
                 if (!allCondition) {
                     Position position = direction.nextPosition(nextPos2.getPosition());
                     Box box = new Box(position);
