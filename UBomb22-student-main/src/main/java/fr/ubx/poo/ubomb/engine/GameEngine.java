@@ -227,8 +227,6 @@ public final class GameEngine {
                             ((Monster) bloqueL).timeUpdate(now);
                         }
 
-
-
                         // If player hurt a monster score + 5
                         player.setScores(player.getScores()+5);
                         if (((Monster) bloqueL).getLives() == 0) {
@@ -237,7 +235,14 @@ public final class GameEngine {
                             player.setScores(player.getScores()+10);
                         }
 
-                    } else bloqueL.remove();
+                    } else if(bloqueL.getClass() == Box.class){
+                        Position pos = bloqueL.getPosition();
+                        bloqueL.remove();
+                        cleanupSprites();
+                        randomDrop(pos);
+                      
+                    }
+                    else bloqueL.remove();
                 }
                 onlyOneBloqueL = true;
                 // Bonus can't stop the explode
@@ -266,6 +271,12 @@ public final class GameEngine {
                             // If player kill a monster score + 10
                             player.setScores(player.getScores()+10);bloqueR.remove();
                         }
+                    } else if(bloqueR.getClass() == Box.class){
+                        Position pos = bloqueR.getPosition();
+                        bloqueR.remove();
+                        cleanupSprites();
+                        randomDrop(pos);
+                      
                     } else bloqueR.remove();
                 }
                 onlyOneBloqueR = true;
@@ -297,7 +308,13 @@ public final class GameEngine {
                             // If player kill a monster score + 10
                             player.setScores(player.getScores()+10);
                         }
-                    } else bloqueU.remove();
+                    }  else if(bloqueU.getClass() == Box.class){
+                        Position pos = bloqueU.getPosition();
+                        bloqueU.remove();
+                        cleanupSprites();
+                        randomDrop(pos);
+                      
+                    }else bloqueU.remove();
                 }
                 onlyOneBloqueU = true;
                 if (passByExplosion(bloqueU)) onlyOneBloqueU = false;
@@ -329,6 +346,12 @@ public final class GameEngine {
                             player.setScores(player.getScores()+10);
                         }
 
+                    } else if(bloqueD.getClass() == Box.class){
+                        Position pos = bloqueD.getPosition();
+                        bloqueD.remove();
+                        cleanupSprites();
+                        randomDrop(pos);
+                      
                     } else bloqueD.remove();
                 }
                 onlyOneBloqueD = true;
@@ -368,6 +391,44 @@ public final class GameEngine {
                 }
             }
         }
+    }
+
+
+    private void randomDrop(Position pos) {
+        Random random = new Random();
+        int rand = random.nextInt(100);
+        if(rand >= 75) return;
+        if(rand < 5 ){
+            Heart heart = new Heart(pos);
+            sprites.add(SpriteFactory.create(layer, heart));
+            game.grid().set(pos, heart);
+            return;
+        }
+        if(rand < 10){
+            BombNumberDec bombNumberDec = new BombNumberDec(pos);
+            sprites.add(SpriteFactory.create(layer, bombNumberDec));
+            game.grid().set(pos, bombNumberDec);
+            return;
+        }
+        if(rand < 15){
+            BombNumberInc bombNumberInc = new BombNumberInc(pos);
+            sprites.add(SpriteFactory.create(layer, bombNumberInc));
+            game.grid().set(pos, bombNumberInc);
+            return;
+        }
+        if(rand < 20){
+            BombRangeDec bombRangeDec = new BombRangeDec(pos);
+            sprites.add(SpriteFactory.create(layer, bombRangeDec));
+            game.grid().set(pos, bombRangeDec);
+            return;
+        }
+        if(rand < 25){
+            BombRangeInc bombRangeInc = new BombRangeInc(pos);
+            sprites.add(SpriteFactory.create(layer, bombRangeInc));
+            game.grid().set(pos, bombRangeInc);
+            return;
+        }
+       
     }
 
 
@@ -668,12 +729,17 @@ public final class GameEngine {
             boolean condition3 = direction.nextPosition(nextPos.getPosition()).y() < 0;
             boolean condition4 = direction.nextPosition(nextPos.getPosition()).x() > game.grid().width()-1;
             boolean condition5 = direction.nextPosition(nextPos.getPosition()).y() > game.grid().height()-1;
-            boolean condition6 =
+            boolean condition6 = false;
+            if(player2 != null) {
+                condition6 =
                     (direction.nextPosition(nextPos.getPosition()).x() == game.player().getPosition().x()
                             && direction.nextPosition(nextPos.getPosition()).y() == game.player().getPosition().y())
                             || (direction.nextPosition(nextPos.getPosition()).x() == game.player2().getPosition().x()
                             && direction.nextPosition(nextPos.getPosition()).y() == game.player2().getPosition().y()); // All the conditions
+
+            }
             boolean allCondition = condition1||condition2||condition3||condition4||condition5||condition6;
+
             if (!allCondition) {
                 Position position = direction.nextPosition(nextPos.getPosition());
                 Box box = new Box(position);
