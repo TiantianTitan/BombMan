@@ -176,7 +176,7 @@ public final class GameEngine {
     Queue<Map.Entry> queueMapTB = new LinkedList<>();
     Queue<Map.Entry> queueMapTB2 = new LinkedList<>();
 
-    private void createNewBombs(Player player, long now) {
+    private void createNewBombs(Player player, long now, Queue<Map.Entry> queueMapTB) {
 
         Bomb bomb = new Bomb(player.getPosition());
         Timer timer = new Timer(4000);
@@ -432,9 +432,10 @@ public final class GameEngine {
     }
 
 
-    private boolean hurtPlayer(Position playerPosition, int xleft, int xright,int y,  int yup, int ydown, int x) {
+    private boolean hurtPlayer(Position playerPosition, double xleft, double xright,double y,  double yup, double ydown, double x) {
         // Check explosions of bombs hurt the player or not
-        return (playerPosition.y() == y && playerPosition.x() >= xleft && playerPosition.x() <= xright) || (playerPosition.x() == x && playerPosition.y() >= ydown && playerPosition.y() <= yup);
+        // TODO
+        return (((playerPosition.y()-0.5) >= y && playerPosition.y() +0.5 <= y) && playerPosition.x() >= xleft && playerPosition.x() <= xright) || (playerPosition.x() == x && playerPosition.y() >= ydown && playerPosition.y() <= yup);
     }
 
 
@@ -505,9 +506,9 @@ public final class GameEngine {
                 player.setKeys(player.getKeys()-1);
             }
         }else if(input.isBomb()&&/* package of bombs */(queueMapTB.size() < player.getBombs()) && /*put only at the empty*/  game.grid().get(player.getPosition()) == null ){
-            createNewBombs(player,now);
-        }else if(player2 != null && input.isBombPlayer2() && queueMapTB2.size() <player2.getBombs() && game.grid().get(player2.getPosition()) == null){
-            createNewBombs(player2,now);
+            createNewBombs(player,now,queueMapTB);
+        }else if(player2 != null && input.isBombPlayer2() && (queueMapTB2.size() <player2.getBombs()) && game.grid().get(player2.getPosition()) == null){
+            createNewBombs(player2,now,queueMapTB2);
         }
         else if (input.isBomb() && end) {
             // tant qu'on gagne ou échoue, on tape ESPACE le jeu va se finir
@@ -1126,8 +1127,8 @@ public final class GameEngine {
         // BUG
         boolean attack = false;
         int area = 4;
-        int mX = monster.getPosition().x() , mY = monster.getPosition().y();
-        int pX = player.getPosition().x() , pY = player.getPosition().y();
+        double mX = monster.getPosition().x() , mY = monster.getPosition().y();
+        double pX = player.getPosition().x() , pY = player.getPosition().y();
         if((mX-pX <= area && mX - pX >= area*(-1)) && (mY-pY <= area && mY-pY >= (-1)* area)) attack = true;
         return attack;
     }

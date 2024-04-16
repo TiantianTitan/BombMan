@@ -137,9 +137,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
         GameObject next = game.grid().get(nextPos);
 
-        if(next != null) System.out.println("Player: " + (player1 ? "Player1" : "Player2") + " trying to move " + direction + " to " + nextPos + " walkable: " + (nextPos == null ? "null" : next.walkableBy(this)));
-        else System.out.println("Player: " + (player1 ? "Player1" : "Player2") + " trying to move " + direction + " to " + nextPos);
-
+      
         if (next instanceof Takeable takeable) {
                 takeable.takenBy(this);
         }
@@ -181,7 +179,6 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     public void update(long now) {
         if (moveRequested) {
-            System.out.println("Player: " + (player1 ? "Player1" : "Player2") + " trying to move " + direction);
             if (canMove(direction)) {
                 doMove(direction);
             }
