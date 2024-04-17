@@ -4,7 +4,6 @@
 
 package fr.ubx.poo.ubomb.go.character;
 
-import fr.ubx.poo.ubomb.engine.Timer;
 import fr.ubx.poo.ubomb.game.Direction;
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;

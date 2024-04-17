@@ -20,6 +20,7 @@ import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -94,6 +95,7 @@ public final class GameEngine {
         buildAndSetGameLoop();
     }
 
+    private Map<KeyCode, Boolean> keysPressed = new HashMap<>();
 
     private void initialize() {
         Group root = new Group();
@@ -104,6 +106,8 @@ public final class GameEngine {
         int sceneWidth = width * ImageResource.size;
         int sceneHeight = height * ImageResource.size;
         Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
+        scene.setOnKeyPressed(event -> keysPressed.put(event.getCode(), true));
+        scene.setOnKeyReleased(event -> keysPressed.put(event.getCode(), false));
         scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 
         stage.setScene(scene);
@@ -115,7 +119,7 @@ public final class GameEngine {
         input = new Input(scene);
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game, modeScore,mode2Players);
-
+        
         // Create sprites
         for (var decor : game.grid().values()) {
             if(decor.getClass() == Princess.class){
@@ -457,43 +461,41 @@ public final class GameEngine {
             gameLoop.stop();
             Platform.exit();
             System.exit(0);
-        } else if (input.isMoveDown()) {
-            request = true;
+        } 
+
+        else if (keysPressed.getOrDefault(KeyCode.DOWN, false)) {
             player.requestMove(Direction.DOWN);
-        } else if (input.isMoveLeft()) {
-            request = true;
-            player.requestMove(Direction.LEFT);
-        } else if (input.isMoveRight()) {
-            request = true;
-            player.requestMove(Direction.RIGHT);
-        } else if (input.isMoveUp()) {
-            request = true;
+        }
+        else if (keysPressed.getOrDefault(KeyCode.UP, false)) {
             player.requestMove(Direction.UP);
         }
-        else if (input.isMoveUpPlayer2()) {
-            if (player2 != null) {
-                request2 = true;
-                player2.requestMove(Direction.UP);
-            }
+        else if (keysPressed.getOrDefault(KeyCode.LEFT, false)) {
+            player.requestMove(Direction.LEFT);
         }
-         else if (input.isMoveDownPlayer2()) {
-            if(player2 != null) {
-                request2 = true;
-                player2.requestMove(Direction.DOWN);
-            }
+        else if (keysPressed.getOrDefault(KeyCode.RIGHT, false)) {
+            player.requestMove(Direction.RIGHT);
         }
-        else if (input.isMoveLeftPlayer2()) {
-            if(player2 != null) {
-                request2 = true;
-                player2.requestMove(Direction.LEFT);
-            }
+
+        else if (keysPressed.getOrDefault(KeyCode.S, false)) {
+            player2.requestMove(Direction.DOWN);
         }
-        else if (input.isMoveRightPlayer2()) {
-            if(player2 != null) {
-                request2 = true;
-                player2.requestMove(Direction.RIGHT);
-            }
+        else if (keysPressed.getOrDefault(KeyCode.W, false)) {
+            player2.requestMove(Direction.UP);
         }
+        else if (keysPressed.getOrDefault(KeyCode.Z, false)) {
+            player2.requestMove(Direction.UP);
+        }
+        else if (keysPressed.getOrDefault(KeyCode.A, false)) {
+            player2.requestMove(Direction.LEFT);
+        }
+        else if (keysPressed.getOrDefault(KeyCode.Q, false)) {
+            player2.requestMove(Direction.LEFT);
+        }
+        else if (keysPressed.getOrDefault(KeyCode.D, false)) {
+            player2.requestMove(Direction.RIGHT);
+        }
+
+        
         else if (input.isKey()){
             Decor nextPos = game.grid().get(player.getDirection().nextPosition(player.getPosition()));
             // if we have key and we want to open the closed door
@@ -1128,7 +1130,7 @@ public final class GameEngine {
         boolean attack = false;
         int area = 4;
         double mX = monster.getPosition().x() , mY = monster.getPosition().y();
-        double pX = player.getPosition().x() , pY = player.getPosition().y();
+        double  pX = player.getPosition().x() , pY = player.getPosition().y();
         if((mX-pX <= area && mX - pX >= area*(-1)) && (mY-pY <= area && mY-pY >= (-1)* area)) attack = true;
         return attack;
     }
