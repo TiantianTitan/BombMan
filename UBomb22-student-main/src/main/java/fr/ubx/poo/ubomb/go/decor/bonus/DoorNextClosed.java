@@ -1,11 +1,10 @@
 package fr.ubx.poo.ubomb.go.decor.bonus;
 
 import fr.ubx.poo.ubomb.game.Position;
-import fr.ubx.poo.ubomb.go.Takeable;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.launcher.Entity;
 
-public class DoorNextClosed extends Bonus implements Takeable {
+public class DoorNextClosed extends Bonus {
     private boolean opened = false;
     public DoorNextClosed(Position position) {
         super(position);

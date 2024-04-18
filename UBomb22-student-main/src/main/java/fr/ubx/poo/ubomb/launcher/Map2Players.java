@@ -6,7 +6,7 @@ import static fr.ubx.poo.ubomb.launcher.Entity.Empty;
 public class Map2Players extends  MapLevel{
 
     private final static Entity[][] level1 = {
-            {Empty, Empty, Box, Box, Box, Box, Box, Box, Box, Box, Box, Box,Box,Box,Box,Box,Box},
+            {Empty, Empty, Box, Empty, Box, Box, Box, Box, Box, Box, Box, Box,Box,Box,Box,Box,Box},
             {Empty, Box, Box, Box, Box, Box, Box, Box, Box, Box, Box, Box,Box,Box,Box,Box,Box},
             {Box, Stone, Stone, Stone, Box, Tree , Tree , Tree , Box, Stone, Stone, Stone,Box, Tree ,Box ,Tree ,Box},
             {Box, Box, Box, Stone, Box, Tree , Box, Tree , Box, Box, Box, Stone,Box,Tree,Box,Tree ,Box},

@@ -463,35 +463,36 @@ public final class GameEngine {
             System.exit(0);
         } 
 
-        else if (keysPressed.getOrDefault(KeyCode.DOWN, false)) {
+        
+        if (keysPressed.getOrDefault(KeyCode.DOWN, false)) {
             player.requestMove(Direction.DOWN);
         }
-        else if (keysPressed.getOrDefault(KeyCode.UP, false)) {
+        if (keysPressed.getOrDefault(KeyCode.UP, false)) {
             player.requestMove(Direction.UP);
         }
-        else if (keysPressed.getOrDefault(KeyCode.LEFT, false)) {
+        if (keysPressed.getOrDefault(KeyCode.LEFT, false)) {
             player.requestMove(Direction.LEFT);
         }
-        else if (keysPressed.getOrDefault(KeyCode.RIGHT, false)) {
+        if (keysPressed.getOrDefault(KeyCode.RIGHT, false)) {
             player.requestMove(Direction.RIGHT);
         }
 
-        else if (keysPressed.getOrDefault(KeyCode.S, false)) {
+        if (keysPressed.getOrDefault(KeyCode.S, false)) {
             player2.requestMove(Direction.DOWN);
         }
-        else if (keysPressed.getOrDefault(KeyCode.W, false)) {
+        if (keysPressed.getOrDefault(KeyCode.W, false)) {
             player2.requestMove(Direction.UP);
         }
-        else if (keysPressed.getOrDefault(KeyCode.Z, false)) {
+        if (keysPressed.getOrDefault(KeyCode.Z, false)) {
             player2.requestMove(Direction.UP);
         }
-        else if (keysPressed.getOrDefault(KeyCode.A, false)) {
+        if (keysPressed.getOrDefault(KeyCode.A, false)) {
             player2.requestMove(Direction.LEFT);
         }
-        else if (keysPressed.getOrDefault(KeyCode.Q, false)) {
+        if (keysPressed.getOrDefault(KeyCode.Q, false)) {
             player2.requestMove(Direction.LEFT);
         }
-        else if (keysPressed.getOrDefault(KeyCode.D, false)) {
+        if (keysPressed.getOrDefault(KeyCode.D, false)) {
             player2.requestMove(Direction.RIGHT);
         }
 
@@ -720,13 +721,13 @@ public final class GameEngine {
             down = false;
         }
 
-        Decor nextPos = game.grid().get(player.getDirection().nextPosition(player.getPosition()));
-
+        Decor nextPos = game.grid().get((player.getDirection().nextPosition(player.getPosition())).centerPosition());
         // Implementation of push the box
         if (request && nextPos != null && nextPos.getClass() == Box.class ) {
+            System.out.println("touch box");
             Direction direction = player.getDirection();
             // La condition c'est s'il y a  de bonus ou decor derrière de caisse, il peut pas bouger
-            boolean condition1 = game.grid().get(direction.nextPosition(nextPos.getPosition())) != null;
+            boolean condition1 = game.grid().get(direction.nextPosition(nextPos.getPosition()).centerPosition()) != null;
             // La condition c'est si la caisse est au bord du map ,il peut pas bouger
             boolean condition2 = direction.nextPosition(nextPos.getPosition()).x() < 0;
             boolean condition3 = direction.nextPosition(nextPos.getPosition()).y() < 0;
@@ -1018,12 +1019,13 @@ public final class GameEngine {
 
     private boolean canMove(Monster monster, Direction direction) {
         // Pour judger le monster peut passer ou pas
-        Decor nextPos = game.grid().get(direction.nextPosition(monster.getPosition()));
+        Position pos = direction.nextPosition(monster.getPosition());
+        Decor nextPos = game.grid().get(new Position((int)pos.x(),(int)pos.y()));
 
-        if(direction == Direction.LEFT && monster.getPosition().x() == 0) return false;
-        if(direction == Direction.UP && monster.getPosition().y() == 0) return false;
-        if(direction == Direction.RIGHT && monster.getPosition().x() == game.grid().width()-1) return false;
-        if(direction == Direction.DOWN && monster.getPosition().y() == game.grid().height()-1) return false;
+        if(direction == Direction.LEFT && monster.getPosition().x() <= 0) return false;
+        if(direction == Direction.UP && monster.getPosition().y() <= 0) return false;
+        if(direction == Direction.RIGHT && monster.getPosition().x() >= game.grid().width()-1) return false;
+        if(direction == Direction.DOWN && monster.getPosition().y() >= game.grid().height()-1) return false;
 
         // Implémentation de la capabilité de passer
         boolean ret = true;

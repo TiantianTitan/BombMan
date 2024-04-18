@@ -165,7 +165,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
         boolean ret = true;
         // Vérification de border
-        boolean cantMoveBorder = (direction == Direction.LEFT && this.getPosition().x() == 0)|| (direction == Direction.UP && this.getPosition().y() == 0) || (direction == Direction.RIGHT && this.getPosition().x() == game.grid().width()-1) || (direction == Direction.DOWN && this.getPosition().y() == game.grid().height()-1);
+        boolean cantMoveBorder = (direction == Direction.LEFT && this.getPosition().x() <= 0)|| (direction == Direction.UP && this.getPosition().y() <= 0) || (direction == Direction.RIGHT && this.getPosition().x() >= game.grid().width()-1) || (direction == Direction.DOWN && this.getPosition().y() >= game.grid().height()-1);
         if(cantMoveBorder) ret = false;
 
         // Vérification de Decor

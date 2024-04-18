@@ -4,8 +4,6 @@
 
 package fr.ubx.poo.ubomb.engine;
 
-import java.io.Serializable;
-
 public class Timer {
     private long duration;
     private long startTime;
