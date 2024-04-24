@@ -46,5 +46,5 @@ public enum Direction {
         return nextPosition(pos, 1);
     }
 
-      
+
 }
