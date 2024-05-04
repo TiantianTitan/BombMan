@@ -4,6 +4,7 @@
 
 package fr.ubx.poo.ubomb.engine;
 
+import fr.ubx.poo.ubomb.audio.AudioPlayer;
 import fr.ubx.poo.ubomb.game.*;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.go.decor.Bomb;
@@ -62,7 +63,11 @@ public final class GameEngine {
     private Timer timePlayerBless2;
     private final Timer timeCreatMonster = new Timer(10000);
     private boolean ret;
-    
+
+    private boolean explodeSound;
+
+    private final AudioPlayer audioPlayer = new AudioPlayer(); ;
+
 
     public GameEngine(Game game, final Stage stage, int currentLevel,boolean modeScore, boolean mode2Players) {
         this.stage = stage;
@@ -73,6 +78,8 @@ public final class GameEngine {
         this.player = game.player();
         this.player2 = game.player2();
         this.currentLevel = currentLevel;
+        this.explodeSound = false;
+
         // Initialisation of the monster's life, level ++, speed ++
         if(currentLevel == 1) {
             // Depends on monsterVelocity
@@ -92,6 +99,12 @@ public final class GameEngine {
         if(player2 != null) timePlayerBless2 = new Timer(player2.getTimeInvicility());
 
         initialize();
+        try {
+            audioPlayer.playSound("background.mp3",0.1F,true);  // 在新线程播放音乐
+        } catch (Exception e) {
+            System.err.println("Error initializing media player:");
+            e.printStackTrace();
+        }
         buildAndSetGameLoop();
     }
 
@@ -142,6 +155,7 @@ public final class GameEngine {
         gameLoop = new AnimationTimer() {
             public void handle(long now) {
                 // Check keyboard actions
+
                 processInput(now);
 
                 // Do actions
@@ -170,6 +184,7 @@ public final class GameEngine {
         });
         layer.getChildren().add(explosion);
         tt.play();
+
     }
 
 
@@ -507,8 +522,20 @@ public final class GameEngine {
             }
         }else if(input.isBomb()&&/* package of bombs */(queueMapTB.size() < player.getBombs()) && /*put only at the empty*/  game.grid().get(player.getPosition()) == null ){
             createNewBombs(player,now,queueMapTB);
+            try {
+                audioPlayer.playSound("bombPlace.mp3",0.5F,false);
+            } catch (Exception e) {
+                System.err.println("Error initializing media player:");
+                e.printStackTrace();
+            }
         }else if(player2 != null && input.isBombPlayer2() && (queueMapTB2.size() <player2.getBombs()) && game.grid().get(player2.getPosition()) == null){
             createNewBombs(player2,now,queueMapTB2);
+            try {
+                audioPlayer.playSound("bombPlace.mp3",0.5F,false);
+            } catch (Exception e) {
+                System.err.println("Error initializing media player:");
+                e.printStackTrace();
+            }
         }
         else if (input.isBomb() && end) {
             // tant qu'on gagne ou échoue, on tape ESPACE le jeu va se finir
@@ -613,12 +640,25 @@ public final class GameEngine {
         // Implementation of losing
         if(mode2Players){
             if (player.getLives() == 0) {
+                try {
+                    audioPlayer.playSound("victoire.wav",0.5F,false);
+                } catch (Exception e) {
+                    System.err.println("Error initializing media player:");
+                    e.printStackTrace();
+                }
                 gameLoop.stop();
+
                 showMessage("Winner : Player2!", Color.RED);
                 end = true;
             }
 
             if (player2 != null && player2.getLives() == 0) {
+                try {
+                    audioPlayer.playSound("victoire.wav",0.5F,false);
+                } catch (Exception e) {
+                    System.err.println("Error initializing media player:");
+                    e.printStackTrace();
+                }
                 gameLoop.stop();
                 showMessage("Winner : Player1!", Color.RED);
                 end = true;
@@ -634,7 +674,14 @@ public final class GameEngine {
 
         // Implementation of winning
         if (player.isWin() || (modeScore && (player.getScores()>200))) {
+            try {
+                audioPlayer.playSound("victoire.wav",0.5F,false);
+            } catch (Exception e) {
+                System.err.println("Error initializing media player:");
+                e.printStackTrace();
+            }
             gameLoop.stop();
+
             showMessage("Victoir!", Color.BLUE);
             end = true;
         }
@@ -904,6 +951,12 @@ public final class GameEngine {
                 }
                 if(!timer.isRunning()){
                     checkAnimateExplosion(bomb, player.getRange(),now);
+                    try {
+                        audioPlayer.playSound("explode.mp3",0.5F,false);
+                    } catch (Exception e) {
+                        System.err.println("Error initializing media player:");
+                        e.printStackTrace();
+                    }
                     bomb.remove();
                 }
             }
