@@ -685,6 +685,12 @@ public final class GameEngine {
         }
         else {
                 if (player.getLives() == 0 || (modeScore && (player.getScores() < 0))) {
+                    try {
+                        audioPlayer.playSound("perdu.mp3",0.5F,false);
+                    } catch (Exception e) {
+                        System.err.println("Error initializing media player:");
+                        e.printStackTrace();
+                    }
                 gameLoop.stop();
                 showMessage("Perdu!", Color.RED);
                 end = true;

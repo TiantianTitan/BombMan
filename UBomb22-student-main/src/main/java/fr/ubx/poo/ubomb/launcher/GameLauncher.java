@@ -8,19 +8,19 @@ import fr.ubx.poo.ubomb.game.Position;
 public class GameLauncher {
 
     public static Game load() {
-        Configuration configuration = new Configuration(new Position(0, 0), 3, 5, 4000, 5, 1000);
+        Configuration configuration = new Configuration(new Position(0, 0), 2, 2, 4000, 5, 1000);
         return new Game(configuration, new Level(new MapLevelDefault()));
     }
 
     public static Game loadScore(){
-        Configuration configuration = new Configuration(new Position(7, 7), 3, 30, 4000, 5, 1000);
+        Configuration configuration = new Configuration(new Position(7, 7), 2, 2, 4000, 5, 1000);
         return new Game(configuration, new Level(new MapLevelScoreMode()));
     }
 
 
     public static Game load2Players(){
-        Configuration configuration = new Configuration(new Position(0, 0), 3,2, 4000, 5, 1000);
-        Configuration configuration2 = new Configuration(new Position(16,14),3,2,4000,5,1000);
+        Configuration configuration = new Configuration(new Position(0, 0), 2,2, 4000, 5, 1000);
+        Configuration configuration2 = new Configuration(new Position(16,14),2,2,4000,5,1000);
         return new Game(configuration,configuration2, new Level(new Map2Players()));
     }
 
