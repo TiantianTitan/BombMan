@@ -13,12 +13,14 @@ public class Level implements Grid {
 
     private final int height;
 
+    private final MapLevel entities;
     private Position playerInitPositionNext;
     private Position playerInitPositionPrev;
 
     private final Map<Position, Decor> elements = new HashMap<>();
 
     public Level(MapLevel entities) {
+        this.entities = entities;
         this.width = entities.width();
         this.height = entities.height();
 

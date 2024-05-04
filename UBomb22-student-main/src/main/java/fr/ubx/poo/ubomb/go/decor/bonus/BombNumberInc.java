@@ -4,6 +4,8 @@ import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.launcher.Entity;
 import fr.ubx.poo.ubomb.view.ImageResource;
+import fr.ubx.poo.ubomb.view.ImageResourceFactory;
+import javafx.scene.image.ImageView;
 
 public class BombNumberInc extends  Bonus{
 

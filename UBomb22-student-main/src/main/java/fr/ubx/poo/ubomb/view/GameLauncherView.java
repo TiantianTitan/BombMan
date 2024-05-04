@@ -42,10 +42,10 @@ public class GameLauncherView extends BorderPane {
         menuBar.getMenus().addAll(menuFile);
         this.setTop(menuBar);
 
-        Text text = new Text("BombMan");
+        Text text = new Text("      BombMan      ");
         text.getStyleClass().add("message");
         Text textSchool = new Text("Sorbonne Université");
-        textSchool.getStyleClass().add("message2");
+        textSchool.getStyleClass().add("message");
         VBox scene = new VBox();
         scene.getChildren().add(text);
         scene.getChildren().add(textSchool);

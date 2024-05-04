@@ -58,31 +58,31 @@ public final class Input {
     // direction isn't handled.
     // -------------------------------------------------
 
-    // public boolean isMoveUp() {
-    //     return is(UP) && !is(DOWN);
-    // }
+    public boolean isMoveUp() {
+        return is(UP) && !is(DOWN);
+    }
 
-    // public boolean isMoveDown() {
-    //     return is(DOWN) && !is(UP);
-    // }
+    public boolean isMoveDown() {
+        return is(DOWN) && !is(UP);
+    }
 
-    // public boolean isMoveLeft() {
-    //     return is(LEFT) && !is(RIGHT);
-    // }
+    public boolean isMoveLeft() {
+        return is(LEFT) && !is(RIGHT);
+    }
 
-    // public boolean isMoveRight() {
-    //     return is(RIGHT) && !is(LEFT);
-    // }
+    public boolean isMoveRight() {
+        return is(RIGHT) && !is(LEFT);
+    }
 
     public boolean isBomb() {
         return is(SPACE);
     }
 
-    // public  boolean isMoveUpPlayer2(){return (is(Z) || is(W)) && !is(S);}
-    // public  boolean isMoveDownPlayer2(){return !(is(Z) || is(W)) && is(S);}
-    // public  boolean isMoveLeftPlayer2(){return (is(Q) || is(A)) && !is(D);}
+    public  boolean isMoveUpPlayer2(){return (is(Z) || is(W)) && !is(S);}
+    public  boolean isMoveDownPlayer2(){return !(is(Z) || is(W)) && is(S);}
+    public  boolean isMoveLeftPlayer2(){return (is(Q) || is(A)) && !is(D);}
 
-    // public  boolean isMoveRightPlayer2(){return !(is(Q) || is(A)) && is(D);}
+    public  boolean isMoveRightPlayer2(){return !(is(Q) || is(A)) && is(D);}
 
     public boolean isBombPlayer2() {return is(B); };
 

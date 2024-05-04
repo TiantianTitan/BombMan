@@ -27,11 +27,3 @@
     -fx-font-family: Verdana;
     -fx-fill: brown;
 }
-
-.message2 {
-    -fx-font-size: 30;
-    -fx-font-width: bold;
-    -fx-padding: 50px;
-    -fx-font-family: Verdana;
-    -fx-fill: brown;
-}

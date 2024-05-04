@@ -9,6 +9,7 @@ import fr.ubx.poo.ubomb.go.Takeable;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.go.decor.Decor;
 import fr.ubx.poo.ubomb.view.ImageResource;
+import javafx.scene.image.ImageView;
 
 public abstract class Bonus extends Decor implements Takeable {
     public Bonus(Position position) {

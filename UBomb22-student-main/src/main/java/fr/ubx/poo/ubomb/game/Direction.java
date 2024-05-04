@@ -9,25 +9,25 @@ import java.util.Random;
 public enum Direction {
     UP {
         @Override
-        public Position nextPosition(Position pos, double delta) {
+        public Position nextPosition(Position pos, int delta) {
             return new Position(pos.x(), pos.y() - delta);
         }
     },
     RIGHT {
         @Override
-        public Position nextPosition(Position pos, double delta) {
+        public Position nextPosition(Position pos, int delta) {
             return new Position(pos.x() + delta, pos.y());
         }
     },
     DOWN {
         @Override
-        public Position nextPosition(Position pos, double delta) {
+        public Position nextPosition(Position pos, int delta) {
             return new Position(pos.x(), pos.y() + delta);
         }
     },
     LEFT {
         @Override
-        public Position nextPosition(Position pos,double delta) {
+        public Position nextPosition(Position pos, int delta) {
             return new Position(pos.x() - delta, pos.y());
         }
     },
@@ -40,10 +40,10 @@ public enum Direction {
         return values()[i];
     }
 
-    public abstract Position nextPosition(Position pos, double delta);
+    public abstract Position nextPosition(Position pos, int delta);
 
     public Position nextPosition(Position pos) {
-        return nextPosition(pos, 0.1);
+        return nextPosition(pos, 1);
     }
 
 

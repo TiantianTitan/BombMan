@@ -1,5 +1,6 @@
 package fr.ubx.poo.ubomb.go.decor.bonus;
 
+import fr.ubx.poo.ubomb.game.Direction;
 import fr.ubx.poo.ubomb.game.Position;
 
 import java.util.Random;
