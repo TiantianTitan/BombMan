@@ -64,12 +64,13 @@ public final class GameEngine {
     private final Timer timeCreatMonster = new Timer(10000);
     private boolean ret;
 
-    private boolean explodeSound;
+    private boolean stairsBackground;
+
 
     private final AudioPlayer audioPlayer = new AudioPlayer(); ;
 
 
-    public GameEngine(Game game, final Stage stage, int currentLevel,boolean modeScore, boolean mode2Players) {
+    public GameEngine(Game game, final Stage stage, int currentLevel,boolean modeScore, boolean mode2Players, boolean stairsBackground) {
         this.stage = stage;
         this.game = game;
         this.modeScore = modeScore;
@@ -78,7 +79,7 @@ public final class GameEngine {
         this.player = game.player();
         this.player2 = game.player2();
         this.currentLevel = currentLevel;
-        this.explodeSound = false;
+        this.stairsBackground = stairsBackground;
 
         // Initialisation of the monster's life, level ++, speed ++
         if(currentLevel == 1) {
@@ -99,11 +100,13 @@ public final class GameEngine {
         if(player2 != null) timePlayerBless2 = new Timer(player2.getTimeInvicility());
 
         initialize();
-        try {
-            audioPlayer.playSound("background.mp3",0.1F,true);  // 在新线程播放音乐
-        } catch (Exception e) {
-            System.err.println("Error initializing media player:");
-            e.printStackTrace();
+        if(!stairsBackground){
+            try {
+                audioPlayer.playSound("background.mp3",0.1F,true);  // 在新线程播放音乐
+            } catch (Exception e) {
+                System.err.println("Error initializing media player:");
+                e.printStackTrace();
+            }
         }
         buildAndSetGameLoop();
     }
@@ -323,6 +326,7 @@ public final class GameEngine {
                             bloqueU.remove();
                             // If player kill a monster score + 10
                             player.setScores(player.getScores()+10);
+
                         }
                     }  else if(bloqueU.getClass() == Box.class){
                         Position pos = bloqueU.getPosition();
@@ -468,6 +472,15 @@ public final class GameEngine {
 
 
     private void processInput(long now) {
+        if(player.isItemToken()){
+            player.setItemToken(false);
+            try {
+                audioPlayer.playSound("item.mp3",0.5F,false);
+            } catch (Exception e) {
+                System.err.println("Error initializing media player:");
+                e.printStackTrace();
+            }
+        }
         if (input.isExit()) {
             gameLoop.stop();
             Platform.exit();
@@ -515,6 +528,12 @@ public final class GameEngine {
             if(nextPos!= null && nextPos.getClass() == DoorNextClosed.class && player.getKeys() >0 ){
 
                 ((DoorNextClosed) nextPos).openDoor();
+                try {
+                    audioPlayer.playSound("door.wav",0.5F,false);
+                } catch (Exception e) {
+                    System.err.println("Error initializing media player:");
+                    e.printStackTrace();
+                }
                 nextPos.setModified(true);
 
                 // Use the key for open the door
@@ -689,6 +708,12 @@ public final class GameEngine {
         // Implementation of going upstairs
         if(up && player.isGo_upstairs()){
             // load new level
+            try {
+                audioPlayer.playSound("stairs.wav",0.5F,false);
+            } catch (Exception e) {
+                System.err.println("Error initializing media player:");
+                e.printStackTrace();
+            }
             String string = game.stringMaps[currentLevel];
             Level levelLoad = new Level(GameLauncher.load(string));
             Game newGame = new Game(game.configuration(),levelLoad);
@@ -722,13 +747,19 @@ public final class GameEngine {
             newGame.player().setRange(player.getRange());
             newGame.player().setLives(player.getLives());
 
-            GameEngine engine = new GameEngine(newGame,stage,currentLevel+1,false,false);
+            GameEngine engine = new GameEngine(newGame,stage,currentLevel+1,false,false,true);
             engine.start();
             up = false;
         }
 
         // Implementation of going downstairs
         if(down && player.isGo_downstairs()){
+            try {
+                audioPlayer.playSound("stairs.wav",0.5F,false);
+            } catch (Exception e) {
+                System.err.println("Error initializing media player:");
+                e.printStackTrace();
+            }
             String string = game.stringMaps[currentLevel-2];
             Level level = new Level(GameLauncher.load(string));
             Game newGame = new Game(game.configuration(),level);
@@ -760,7 +791,7 @@ public final class GameEngine {
             newGame.player().setRange(player.getRange());
             newGame.player().setLives(player.getLives());
 
-            GameEngine engine = new GameEngine(newGame,stage,currentLevel-1,false,false);
+            GameEngine engine = new GameEngine(newGame,stage,currentLevel-1,false,false,true);
             engine.start();
             down = false;
         }
@@ -769,6 +800,7 @@ public final class GameEngine {
 
         // Implementation of push the box
         if (request && nextPos != null && nextPos.getClass() == Box.class ) {
+
             Direction direction = player.getDirection();
             // La condition c'est s'il y a  de bonus ou decor derrière de caisse, il peut pas bouger
             boolean condition1 = game.grid().get(direction.nextPosition(nextPos.getPosition())) != null;
@@ -789,6 +821,12 @@ public final class GameEngine {
             boolean allCondition = condition1||condition2||condition3||condition4||condition5||condition6;
 
             if (!allCondition) {
+                try {
+                    audioPlayer.playSound("push.wav",0.5F,false);
+                } catch (Exception e) {
+                    System.err.println("Error initializing media player:");
+                    e.printStackTrace();
+                }
                 Position position = direction.nextPosition(nextPos.getPosition());
                 Box box = new Box(position);
 
@@ -825,6 +863,12 @@ public final class GameEngine {
                 // All the conditions
                 boolean allCondition = condition1||condition2||condition3||condition4||condition5||condition6;
                 if (!allCondition) {
+                    try {
+                        audioPlayer.playSound("push.wav",0.5F,false);
+                    } catch (Exception e) {
+                        System.err.println("Error initializing media player:");
+                        e.printStackTrace();
+                    }
                     Position position = direction.nextPosition(nextPos2.getPosition());
                     Box box = new Box(position);
 

@@ -30,12 +30,24 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     private final boolean player1;
     private boolean win = false;
 
+
+
+    private boolean itemToken ;
+
     public boolean isPlayer1() {
         return player1;
     }
 
     private boolean invicility = false;
     private final long timeInvicility =game.configuration().playerInvisibilityTime();
+
+    public boolean isItemToken() {
+        return itemToken;
+    }
+    public void setItemToken(boolean itemToken) {
+        this.itemToken = itemToken;
+    }
+
 
     public Player(Game game, Position position, boolean player1) {
         super(game, position);
@@ -51,6 +63,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         }
         this.range = 1;
         this.scores = 50;
+        this.itemToken = false;
     }
 
     public boolean isBless() {
@@ -87,28 +100,35 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     @Override
     public void take(Bonus bonus){
         if(bonus != null){
+
            if(bonus.getClass() == Heart.class){
                this.scores += 5;
                this.lives ++;
+               this.itemToken = true;
            }
            if(bonus.getClass() == Key.class){
                this.keys++;
+               this.itemToken = true;
            }
            if(bonus.getClass() == BombNumberInc.class){
                this.scores += 5;
                this.bombs++;
+               this.itemToken = true;
            }
            if(bonus.getClass() == BombNumberDec.class){
                this.scores -= 5;
                this.bombs--;
+               this.itemToken = true;
            }
            if(bonus.getClass() == BombRangeInc.class){
                this.scores += 5;
                this.range++;
+               this.itemToken = true;
            }
             if(bonus.getClass() == BombRangeDec.class){
                 this.scores -= 5;
                 this.range--;
+                this.itemToken = true;
             }
             if(bonus.getClass() == Monster.class){
                 if(!isInvicility()) {

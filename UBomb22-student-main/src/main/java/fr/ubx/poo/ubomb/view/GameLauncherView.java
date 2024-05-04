@@ -107,7 +107,7 @@ public class GameLauncherView extends BorderPane {
                 }
                 modeScore = false;
                 mode2Players = false;
-                GameEngine engine = new GameEngine(game, stage,1,modeScore,mode2Players);
+                GameEngine engine = new GameEngine(game, stage,1,modeScore,mode2Players,false);
                 engine.start();
 
             }
@@ -175,7 +175,7 @@ public class GameLauncherView extends BorderPane {
                 }
                 modeScore = false;
                 mode2Players = false;
-                GameEngine engine = new GameEngine(game, stage,1,modeScore,mode2Players);
+                GameEngine engine = new GameEngine(game, stage,1,modeScore,mode2Players,false);
                 engine.start();
         
             } else {
@@ -188,7 +188,7 @@ public class GameLauncherView extends BorderPane {
             Game game = GameLauncher.loadScore();
             modeScore = true;
             mode2Players = false;
-            GameEngine engine = new GameEngine(game, stage,1,modeScore,mode2Players);
+            GameEngine engine = new GameEngine(game, stage,1,modeScore,mode2Players,false);
             engine.start();
         });
 
@@ -196,7 +196,7 @@ public class GameLauncherView extends BorderPane {
             Game game = GameLauncher.load2Players();
             modeScore = false;
             mode2Players = true;
-            GameEngine engine = new GameEngine(game, stage,1,modeScore,mode2Players);
+            GameEngine engine = new GameEngine(game, stage,1,modeScore,mode2Players,false);
             engine.start();
         });
 
