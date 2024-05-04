@@ -88,10 +88,10 @@ public final class GameEngine {
         }else {
             timerMonster = new Timer(game.configuration().monsterVelocity() * 1000L / currentLevel + 1000);
         }
-        // Initialisation of the monster's life, level += 2, life += 1
+
         for (var monster : game.grid().values()){
             if(monster!= null && monster.getClass() == Monster.class){
-                ((Monster) monster).setLives((currentLevel/2)+1);
+                ((Monster) monster).setLives(1);
                 ((Monster) monster).setInvisibility(new Timer(game.configuration().monsterInvisibilityTime()));
             }
         }
