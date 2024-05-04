@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+    // You can add your project dependencies here
 }
 
 sourceCompatibility = '17'
@@ -24,6 +25,5 @@ mainClassName = 'fr.ubx.poo.ubomb.Main'
 
 javafx {
     version = '17'
-    modules = ['javafx.controls', 'javafx.fxml']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.media'] // Added javafx.media here
 }
-

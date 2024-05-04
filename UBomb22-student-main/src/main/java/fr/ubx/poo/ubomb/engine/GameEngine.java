@@ -63,6 +63,7 @@ public final class GameEngine {
     private Timer timePlayerBless2;
     private final Timer timeCreatMonster = new Timer(10000);
     private boolean ret;
+    
 
     public GameEngine(Game game, final Stage stage, int currentLevel,boolean modeScore, boolean mode2Players) {
         this.stage = stage;
@@ -438,8 +439,7 @@ public final class GameEngine {
 
     private boolean hurtPlayer(Position playerPosition, double xleft, double xright,double y,  double yup, double ydown, double x) {
         // Check explosions of bombs hurt the player or not
-        // TODO
-        return (((playerPosition.y()-0.5) >= y && playerPosition.y() +0.5 <= y) && playerPosition.x() >= xleft && playerPosition.x() <= xright) || (playerPosition.x() == x && playerPosition.y() >= ydown && playerPosition.y() <= yup);
+        return ((playerPosition.y() == y) && playerPosition.x() >= xleft && playerPosition.x() <= xright) || (playerPosition.x() == x && playerPosition.y() >= ydown && playerPosition.y() <= yup);
     }
 
 
