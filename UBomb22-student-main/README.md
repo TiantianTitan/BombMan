@@ -33,18 +33,14 @@ Chaque monde est représenté par une carte (rectangulaire) composée de cellule
 
 ## Prise en main
 
-Nous vous fournissons une première ébauche du jeu, utilisant la bibliothèque JavaFX. Le lancement du jeu
-fait apparaître une carte minimaliste, chargée statiquement en mémoire, dans laquelle le joueur peut se déplacer dans toutes les directions, quelle que soit la nature des cellules. Le code utilise `gradle` comme moteur de production. Il suffit de lancer la commande suivante pour compiler et exécuter le jeu. Toutes les dépendances seront automatiquement téléchargées et installées. Le jeu nécessite une version de Java au moins égale à 14. La version 17 est recommandée car il s'agit de la dernière version LTS (*Long Term Support*). 
-
+Le code utilise gradle comme moteur de production. Il suffit de lancer la commande spécifiée pour compiler et exécuter le jeu. Toutes les dépendances sont automatiquement téléchargées et installées. Le jeu nécessite une version de Java au moins égale à 14, avec la version 17 recommandée comme étant la dernière version LTS (Long Term Support).
+    
     $ ./gradlew run
 
 
 ## Affichage
 
-Ajouter l'affichage de tous les éléments (caisses, bonus, clés...) ainsi que les monstres et la princesse.  Les mouvements du joueur sont limités par le cadre de la carte, les éléments de décor et les caisses. 
-Le joueur peut marcher sur une case où se trouve un bonus, une clé, ou un autre personnage. 
-S’il atteint la princesse, la partie se termine par une victoire.
-Si ses points de vie tombent à 0, la partie se termine par une défaite.
+Nous avons ajouté l'affichage de tous les éléments tels que les caisses, les bonus, les clés, ainsi que les monstres et la princesse. Les mouvements du joueur sont maintenant limités par le cadre de la carte, les éléments de décor et les caisses. Le joueur peut marcher sur une case où se trouve un bonus, une clé, ou un autre personnage. S'il atteint la princesse, la partie se termine par une victoire. Si ses points de vie tombent à 0, la partie se termine par une défaite.
 
 ## Monstres 
 Le joueur perde une vie lorsqu'il se trouve sur la même case qu'un monstre.
