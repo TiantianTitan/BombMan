@@ -1,14 +1,13 @@
 <link rel="stylesheet" href="readme.css">
 
 
-# Projet de POO
+# Projet de CPA
+Sorbonne université
 
-Réalisation d'un jeu vidéo 2D : **UBomb**.
+Haotian XUE , HeJun CAO
 
+Un jeu vidéo 2D : **BombMan**.
 
-## INFO du 08/11/2022 
-
-Il y a un bug sur les machines Linux du CREMI exclusivement qui empêche la taille de la fenêtre de s'ajuster automatiquement à la taille de la carte. Pour y remédier dans l'immédiat, remplacer `stage.setResizable(false);` par `stage.setResizable(true);` dans la méthode `initialize` de la classe `GameEngine`.
 
 ## Principes du jeu
 
@@ -35,92 +34,28 @@ Chaque monde est représenté par une carte (rectangulaire) composée de cellule
 ## Prise en main
 
 Nous vous fournissons une première ébauche du jeu, utilisant la bibliothèque JavaFX. Le lancement du jeu
-fait apparaître une carte minimaliste, chargée statiquement en mémoire, dans laquelle le joueur peut se déplacer dans toutes les directions, quelle que soit la nature des cellules. Le code utilise `gradle` comme moteur de production. Il suffit de lancer la commande suivante pour compiler et exécuter le jeu. Toutes les dépendances seront automatiquement téléchargées et installées. Le jeu nécessite une version de Java au moins égale à 14. La version 17 est recommandée car il s'agit de la dernière version LTS (*Long Term Support*). Pour utiliser Java 17 sur les machines du CREMI, il suffit d'exécuter la commande `source  /opt/local/bin/java17.env` dans votre fichier de configuration. 
+fait apparaître une carte minimaliste, chargée statiquement en mémoire, dans laquelle le joueur peut se déplacer dans toutes les directions, quelle que soit la nature des cellules. Le code utilise `gradle` comme moteur de production. Il suffit de lancer la commande suivante pour compiler et exécuter le jeu. Toutes les dépendances seront automatiquement téléchargées et installées. Le jeu nécessite une version de Java au moins égale à 14. La version 17 est recommandée car il s'agit de la dernière version LTS (*Long Term Support*). 
 
     $ ./gradlew run
 
 
-Le jeu utilise quelques fonctionnalités nouvelles de Java qui n'ont pas été vues en cours ou en TD :
+## Affichage
 
-### Switch Expression (Java 13)
-
-Les expressions `Switch` peuvent désormais retourner une valeur et vous pouvez utiliser une syntaxe de style lambda. 
-
-```java
-boolean result = switch (status) {
-    case SUBSCRIBER -> true;
-    case FREE_TRIAL -> false;
-    default -> throw new IllegalArgumentException("something is murky!");
-};
-```
-
-### Records (Java 14)
-
-Il existe désormais des classes d'enregistrement (`record`) qui permettent de ne pas devoir écrire beaucoup de code pour manipuler des champs *immutables* (déclarés avec `final`). Ainsi le code suivant :
-
-```java
-final class Point {
-    private final int x;
-    private final int y;
-
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int x() { return x; }
-    public int y() { return y; }
-
-    // state-based implementations of equals, hashCode, toString
-    // nothing else
-}
-```
-s'écrit simplement par :
-```java
-record Point(int x, int y) { }
-```
-
-
-### Pattern Matching pour InstanceOf (Java 14)
-
-Alors que précédemment vous deviez écrire :
-
-```java
-if (obj instanceof String) {
-    String s = (String) obj;
-    // use s
-}
-```
-
-vous pouvez maintenant écrire directement 
-```java
-if (obj instanceof String s) {
-    System.out.println(s.contains("hello"));
-}
-```
-
-Travail à fournir
-=================
-
-
-
-## Premiers pas
-
-Ajouter l'affichage de tous les éléments (caisses, bonus, clés...) ainsi que les monstres et la princesse. Modifier le code pour que les mouvements du joueur soient limités par le cadre de la carte, les éléments de décor et les caisses. 
+Ajouter l'affichage de tous les éléments (caisses, bonus, clés...) ainsi que les monstres et la princesse.  Les mouvements du joueur sont limités par le cadre de la carte, les éléments de décor et les caisses. 
 Le joueur peut marcher sur une case où se trouve un bonus, une clé, ou un autre personnage. 
 S’il atteint la princesse, la partie se termine par une victoire.
 Si ses points de vie tombent à 0, la partie se termine par une défaite.
 
-## Ajoutons des monstres
-Ajouter des monstres. Pour le moment, les monstres ne savent pas marcher, ils ne bougent pas. Faire en sorte que le joueur perde une vie lorsqu'il se trouve sur la même case qu'un monstre.
+## Monstres 
+Le joueur perde une vie lorsqu'il se trouve sur la même case qu'un monstre.
 
-## Gestion du panneau d’informations
+## Panneau d’informations
 
-Le panneau d’information doit afficher le nombre de vies, le nombre de bombes et leur portée, le nombre de clés dans l’inventaire et le numéro de niveau courant.
+Le panneau d’information affiche le nombre de vies, le nombre de bombes et leur portée, le nombre de clés dans l’inventaire et le numéro de niveau courant.
 
 ## Gestion des mondes
 
-Dans la version de base, le jeu ne dispose que d'un seul niveau codé en dur dans le code. Nous allons maintenant charger une configuration complète de jeu depuis un fichier. Vous trouverez un répertoire `world` à la racine du projet avec un fichier `sample.properties` représentant un monde avec 3 niveaux. Les fichiers [properties](https://docs.oracle.com/javase/tutorial/essential/environment/properties.html) en Java permettent de facilement stocker des couples de clés/valeurs. 
+Nous avons chargé une configuration complète de jeu depuis un fichier. Vous trouverez un répertoire world à la racine du projet avec un fichier sample.properties représentant un monde avec 3 niveaux. Les fichiers properties en Java permettent de facilement stocker des couples de clés/valeurs.
 
 Voici un exemple de code pour lire la valeur correspondant à la clé `compression` dans le fichier `sample.properties`.
 
@@ -131,21 +66,19 @@ config.load(in);
 boolean compression = Boolean.parseBoolean(integerProperty(config, "compression", "false"));
 ```
 
-Comme vous pouvez le constater, certaines clés peuvent avoir des valeurs par défaut si elles ne sont pas présentes dans le fichier. Nous utiliserons les valeurs par défaut suivantes :
 
-Clé | Valeur par défaut
---- | --- |
-levels | 1 | 
-compression | false |
-bombBagCapacity | 3 | 
-playerLives | 5 | 
-playerInvisibilityTime | 4000 | 
-monsterVelocity | 5 | 
-monsterInvisibilityTime | 1000 | 
+Clé | Valeur par défaut 
+--- |-------------------|
+levels | 1                 | 
+compression | false             |
+bombBagCapacity | 2                 | 
+playerLives | 2                 | 
+playerInvisibilityTime | 4000              | 
+monsterVelocity | 5                 | 
+monsterInvisibilityTime | 1000              | 
 
-La clé `player` est obligatoire et sa valeur représente les coordonnées (`i` et `j`) du joueur sur le premier niveau. Le fichier contient des clés de la forme `levelX` ou `X` représente un numéro de niveau compris entre 1 et la valeur de la clé `levels`. La valeur associée à un niveau est une chaine de caractère encodant le niveau avec ou sans compression (RLE) en fonction de la variable `compression`.
-Modifier le code dans la classe `GameLauncher` pour que le monde du jeu puisse être chargé depuis un fichier. 
 
+La clé player était obligatoire et sa valeur représentait les coordonnées (i et j) du joueur sur le premier niveau. Le fichier contenait des clés de la forme levelX où X représentait un numéro de niveau compris entre 1 et la valeur de la clé levels. La valeur associée à un niveau était une chaîne de caractères encodant le niveau avec ou sans compression (RLE) en fonction de la variable compression.
 ## Gestion des portes
 
 Lorsque le joueur arrive sur la case d’une porte ouverte, il passe
@@ -171,24 +104,15 @@ Bonus | Effet
 
 ## Déplacement des caisses
 
- Les caisses doivent pouvoir être déplacées par le joueur si rien ne gêne dans le sens de la poussée. Le joueur ne peut déplacer qu'une seule caisse à la fois. Si un bonus ou un monstre se trouve dans la direction de déplacement d’une caisse, la caisse reste bloquée. Le joueur ne peut pas déplacer deux caisses à la fois. Vous pouvez représenter les caisses comme des éléments de décor. Dans ce cas, déplacer une caisse revient à la supprimer et en créer une nouvelle aux bonnes coordonnées.
-
+Les caisses peuvent être déplacées par le joueur si aucun obstacle n'est présent dans la direction de la poussée. Le joueur ne peut déplacer qu'une seule caisse à la fois. Si un bonus ou un monstre se trouve dans la direction de déplacement d'une caisse, celle-ci reste bloquée. Il est impossible pour le joueur de déplacer deux caisses simultanément. Les caisses peuvent être représentées comme des éléments de décor, ce qui signifie que déplacer une caisse implique de la supprimer à son emplacement initial et de la recréer aux nouvelles coordonnées appropriées.
 ## Gestion des bombes
 
-Lorsque le joueur presse la touche `[ESPACE]`, il dépose une bombe sur
-la case sur laquelle il se trouve, déclenchant une explosion au bout de
-4 secondes. La mèche de la bombe diminue chaque seconde. La portée de
-la bombe est par défaut de 1 case, en croix (case du dessus, case du
-dessous, case de gauche, case de droite). Les éléments de décor stoppent
-la propagation de l’explosion dans le sens qu’ils obstruent. Si une caisse est sur le chemin de l’explosion, elle
-disparaît. Une explosion ne peut
-détruire qu’une seule caisse dans une même direction. Si un bonus (ou un malus) se trouve sur le chemin de l’explosion, il disparaît. 
-Enfin, si un joueur ou un monstre est sur une cellule touchée par une explosion, il
-perd une vie. Les explosions n’ont aucun effet sur les portes et les
-clés. Lorsqu’une bombe explose, une nouvelle bombe est ajoutée à
-l’inventaire du joueur. 
+
+Lorsque le joueur appuyait sur la touche [ESPACE], il déposait une bombe sur la case où il se trouvait, déclenchant une explosion au bout de 4 secondes. La mèche de la bombe diminuait chaque seconde. La portée de la bombe était par défaut de 1 case en croix (case du dessus, case du dessous, case de gauche, case de droite). Les éléments de décor stoppaient la propagation de l’explosion dans le sens qu'ils obstruaient. Si une caisse se trouvait sur le chemin de l’explosion, elle disparaissait. Une explosion ne pouvait détruire qu’une seule caisse dans une même direction. Si un bonus (ou un malus) se trouvait sur le chemin de l’explosion, il disparaissait également. Si un joueur ou un monstre se trouvait sur une cellule touchée par une explosion, il perdait une vie. Les explosions n’avaient aucun effet sur les portes et les clés. Lorsqu’une bombe explosait, une nouvelle bombe était ajoutée à l’inventaire du joueur.
 
 Si le joueur pose une bombe et change ensuite de niveau en franchissant une porte, la bombe doit tout de même exploser au bout de 4 secondes. Les éléments de décor détruits sur un niveau doivent le rester pendant toute la durée de la partie.
+
+Si une bombe fait exploser une boîte, un bonus aléatoire peut être généré.
 
 ## Gestion des vies
 
@@ -196,8 +120,7 @@ Le joueur peut perdre une vie s’il se trouve sur une case à portée de l’ex
 
 ## Gestion des monstres
 
-Les déplacements des monstres sont entièrement aléatoires. Une collision avec un monstre déclenche la perte d’une vie. Commencer par ajouter un seul monstre à la fois, puis augmenter le nombre de monstres. Les monstres ne peuvent pas ramasser les bonus qui se trouvent sur le sol. Les monstres ont peur des portes et ne peuvent pas les franchir. Ils ne peuvent pas marcher sur les cases des portes. Les monstres ne peuvent pas déplacer les caisse. 
-
+Les actions du monstre sont complètement aléatoires. Les collisions avec des monstres entraînent des pertes de vies. Commencez par ajouter les monstres un par un, puis augmentez le nombre de monstres. Les monstres ne peuvent pas récupérer de récompenses au sol. Les monstres ont peur des portes et ne peuvent pas les franchir. Ils ne peuvent pas marcher sur les places des portes. Les monstres ne peuvent pas déplacer les caisses. Lorsque le joueur entre dans le dernier niveau en mode solo ou joue en mode score, si le joueur est proche du monstre, le monstre suivra le joueur.
 ## Fin de partie
 
 La partie est finie lorsque le joueur arrive sur la case de la
@@ -205,8 +128,6 @@ princesse. Les monstres ne veulent pas de mal à la princesse, mais feront
 tout pour la garder prisonnière. La touche `[ESCAPE]` permet de quitter la partie à tout moment.
 
 
-## Pour aller plus loin et gagner des points bonus
+## Mode 2 Players
 
-- Faire en sorte que la vitesse de déplacement des monstres soit faible dans les premiers niveaux et augmente plus on se rapproche de la princesse. 
-- Faire en sorte que les monstres possèdent une vie supplémentaire tous les 2 niveaux (2 vies à partir du niveau 2, 3 vies à partir du niveau 4, …)  Il n'est pas demandé d'afficher les vies restantes d'un monstre. 
-- Faire en sorte que les monstres du dernier niveau se dirigent vers le joueur et non plus de manière aléatoire.
+Mode deux joueurs, également un mode compétitif. Le joueur 1 utilise ZSQD ou WSAD pour se déplacer et ESPACE pour placer une bombe. Le joueur 2 utilise les flèches HAUT, BAS, GAUCHE, DROITE pour se déplacer et B pour placer une bombe.
