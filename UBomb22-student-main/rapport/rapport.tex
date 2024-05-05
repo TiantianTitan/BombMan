@@ -19,6 +19,7 @@
 \usepackage{titletoc}
 \usepackage{subcaption} % This package is used for subfigures
 \usepackage{amsthm}
+
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
 
@@ -110,18 +111,81 @@
 
 Ce projet vise à utiliser Java pour implémenter les fonctions de base du jeu classique BomberMan.
 
-\indent Dans le jeu, le personnage contrôlé par le joueur lâche une bombe qui attaquera l'ennemi avec une explosion en forme de croix après un délai. Dans le même temps, la bombe du personnage peut également détruire la boîte pour obtenir les accessoires à l'intérieur, qui peuvent être utilisés pour augmenter ou réduire la portée d'explosion de la bombe, ou pour restaurer sa propre santé.
+\subsection{Principes du jeu}
 
-\indent Le jeu propose un mode révolutionnaire et le but principal est de sauver la dernière princesse. Les joueurs doivent collecter des buffs dans chaque niveau, vaincre les ennemis, obtenir des clés et ouvrir la porte au niveau suivant, afin d'atteindre le dernier niveau étape par étape, trouver la princesse et la sauver.
+\indent 
 
-\indent Le jeu implémente également un mode à deux joueurs. Dans ce mode, la condition de victoire du joueur est de réduire à zéro la santé d'un autre joueur.
+Une princesse est détenue prisonnière par de méchants monstres verts. Votre mission, si vous l'acceptez, est d'aller la délivrer. Pour cela, vous devrez traverser plusieurs mondes, plus effrayants les uns que les autres. Des portes vous permettront de passer de monde en monde. Certaines portes seront fermées à clé et nécessiteront d'avoir une clé dans votre inventaire. Vous êtes un expert en explosif et utiliserez vos bombes pour détruire les obstacles devant vous et tuer les monstres qui vous attaqueront.
 
-\indent Le jeu implémente également un mode points, et la condition de victoire est d'obtenir suffisamment de points.
+\subsection{Représentation du jeu}
 
-\indent LACK OF technologies utilisées
+\indent
 
-\indent LACK OF Gantt chart (IMAGE)
+Chaque monde est représenté par une carte (rectangulaire) composée de cellules. Chaque cellule peut contenir :
 
+-   le joueur ;
+
+-   la princesse ;
+
+-   des monstres ;
+
+-   des éléments de décor (arbres, pierres...) infranchissables et
+    indestructibles ;
+
+-   des caisses destructibles et déplaçables ; 
+
+-   des portes, ouvertes ou fermées, permettant d’évoluer entre les
+    mondes ;
+
+-   des clés pour débloquer les portes fermées ;
+
+-   des bonus ou des malus qu'il est possible de ramasser.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[height=9cm]{../img/ubomb.png}
+    \end{center}
+\end{figure}
+
+\subsection{ Gestion des mondes }
+
+\indent
+
+Nous avons chargé une configuration complète de jeu depuis un fichier. Vous trouverez un répertoire world à la racine du projet avec un fichier sample.properties représentant un monde avec 3 niveaux. Les fichiers properties en Java permettent de facilement stocker des couples de clés/valeurs.
+
+\subsection{Mode 2 Players}
+
+\indent
+
+Mode deux joueurs, également un mode compétitif. Le joueur 1 utilise ZSQD ou WSAD pour se déplacer et ESPACE pour placer une bombe. Le joueur 2 utilise les flèches HAUT, BAS, GAUCHE, DROITE pour se déplacer et B pour placer une bombe.
+
+\section {Bilan de ressource déployée}
+
+\indent
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+    \hline
+    Semaine1 & Déterminez le thème BombMan, créez un projet Gradle, créez des classes d'objets de fenêtre et de joueur et trouvez du matériel de jeu\\
+    \hline
+    Semaine2 & Ajoutez plus d'éléments au jeu, utilisez des lettres pour représenter des objets, utilisez des chaînes pour créer des cartes de jeu, utilisez des fichiers de propriétés pour charger des cartes, ajoutez un panneau d'information pour afficher le statut du joueur, ajoutez la fonction permettant aux joueurs de récupérer des accessoires et les conditions de victoire et défaite du jeu. \\
+    \hline
+    Semaine3 & Déverrouillez la porte et la poignée pour monter et descendre les escaliers. Utilisez un tableau pour enregistrer l'état de l'étage précédent, ce qui résout le problème des déplacements vers et depuis l'étage. Ajout de la fonction permettant aux joueurs de rendre les boîtes, et ajout initial de la fonction bombe (minuterie, les sprites de bombe changent toutes les secondes et génération de flammes d'explosion)\\
+    \hline
+    Semaine4 & Résolution du problème de la façon dont les flammes de l'explosion d'une bombe affectent les joueurs et d'autres objets, résolution de la logique de plusieurs bombes adjacentes explosant en même temps et ajout de changements dans les sprites qui blessaient les joueurs.\\
+    \hline
+    Semaine5 & Ajout d'une fonction de mouvement aléatoire et d'une fonction de mouvement directionnel des monstres \\
+    \hline
+    Semaine6 & Nouveaux modes ajoutés : le mode score et le mode deux joueurs génèrent aléatoirement des monstres ou des bonus à des endroits aléatoires. Le mode deux joueurs ajoute des positions clés. \\
+    \hline
+    Semaine7 & Ajout de la fonction de génération aléatoire de bonus après avoir bombardé une boîte, ainsi que de la musique de fond et des effets sonores du jeu. \\
+    \hline
+    Semaine8 & Rapport et Documentation \\
+    \hline
+    \end{tabular}
+\end{table}
+  
 
 \section{Architecture}
 
@@ -161,17 +225,17 @@ L'architecture de ce projet est la suivante :
 
 \indent Le cycle de vie principal du jeu est le suivant :
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \begin{center}
         \includegraphics[height=5.5cm]{./src/cycle.png}
     \end{center}
 \end{figure}
 
-\indent De plus, afin de mieux comprendre la relation entre les Objets, j'ai dessiné le diagramme UML suivant :
+\indent De plus, j'ai dessiné le diagramme UML suivant :
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[height = 23cm]{./src/UML_Class.png}
+        \includegraphics[height = 21cm]{./src/UML_Class.png}
     \end{center}
 \end{figure}
 
@@ -181,7 +245,68 @@ L'architecture de ce projet est la suivante :
 
 \indent
 
+Nous chargeons les images de chaque objet via la classe SpriteFactory. 
 
+\indent Pour les joueurs et les monstres, il y a des images correspondant à quatre directions. 
+
+\begin{figure}[H]  
+    \centering
+    \subfigure[]{
+    \begin{minipage}[b]{0.2\textwidth}
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/player_left.png} \\
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/player_right.png}
+    \end{minipage}
+    }
+    \subfigure[]{
+    \begin{minipage}[b]{0.2\textwidth}
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/player_up.png} \\
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/player_down.png}
+    \end{minipage}
+    }
+\end{figure}
+    
+\indent Pour une bombe, la longueur de sa mèche changera avec le temps et elle explosera après avoir atteint 4 secondes.
+
+\begin{figure}[H]  
+    \centering
+    \subfigure[]{
+    \begin{minipage}[b]{0.2\textwidth}
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/bomb_3.png} \\
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/bomb_1.png}
+    \end{minipage}
+    }
+    \subfigure[]{
+    \begin{minipage}[b]{0.2\textwidth}
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/bomb_2.png} \\
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/bomb_0.png}
+    \end{minipage}
+    }
+    \subfigure[]{
+        \begin{minipage}[b]{0.2\textwidth}
+        \includegraphics[width=1\textwidth]{../src/main/resources/images/explosion.png}
+        \end{minipage}
+    }
+\end{figure}
+
+\indent De plus, lorsque le joueur entre dans la zone d'attaque du monstre, un point d'exclamation apparaîtra sur la tête du monstre.
+
+\begin{figure}[H]  
+    \centering
+    \subfigure[]{
+    \begin{minipage}[b]{0.2\textwidth}
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/monster_attack_left.png} \\
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/monster_attack_right.png}
+    \end{minipage}
+    }
+    \subfigure[]{
+    \begin{minipage}[b]{0.2\textwidth}
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/monster_attack_up.png} \\
+    \includegraphics[width=1\textwidth]{../src/main/resources/images/monster_attack_down.png}
+    \end{minipage}
+    }
+\end{figure}
+
+\indent Selon le cycle de vie du jeu donné précédemment, chaque fois que nous calculons l'état correspondant à chaque objet dans l'image suivante, nous mettrons à jour l'écran et remplacerons les images de tous les objets modifiés.
 
 \section{Algorithme}
 
@@ -252,14 +377,38 @@ Dans n'importe quel jeu, les actions de l'IA de l'ennemi jouent un rôle très i
 
 \large
 
+\indent Cependant, une telle heuristique pose toujours un problème : si le monstre se retrouve dans une impasse, il y attendra au lieu d’essayer d’autres chemins.
+
+\subsection{Move Test}
+
+\indent 
+
+Dans la première version de ce projet, même si nous avions correctement ajouté la détection de collision entre le joueur (monstre) et l'objet, il y avait encore des scènes fréquentes où le joueur (monstre) restait coincé dans le mur et était incapable de bouger.
+
+\indent Après de nombreux tests, nous avons constaté que les personnages qui changent de position en synchronisation avec nos pressions sur les boutons, en raison de l'étirement du temps, se déplacent en fait plus loin que prévu, ce qui peut entraîner des problèmes avec les personnages qui restent coincés dans les murs.
+
+\indent Notre solution consiste à préjuger le mouvement des joueurs et des monstres. C'est-à-dire que nous devons d'abord déterminer si sa position dans l'image suivante est raisonnable avant qu'il ne bouge réellement, au lieu de modifier directement ses informations de position, puis de déterminer si le mouvement est réel. l'emplacement est raisonnable.
+
 \section{Gestion de Collisions}
 
-\indent
+\indent 
 
 Gestion unifiée des erreurs : établissez un cadre global de gestion des exceptions pour capturer et répondre aux exceptions d'exécution dans le jeu.
 
 \indent Journalisation détaillée : implémentez un système de journalisation pour enregistrer les opérations des utilisateurs et les erreurs système afin de faciliter le débogage et l'analyse.
 
 \indent Nous utilisons des frameworks de journalisation tels que Log4j ou SLF4J pour mettre en œuvre des stratégies de journalisation détaillées. Ajoutez la journalisation aux points opérationnels clés, tels que la lecture et l’écriture de fichiers et les opérations utilisateur importantes.
+
+\section{Conclusion}
+
+\indent
+
+Ce projet vise à développer un remake 2D du jeu classique appelé BomberMan. Le gameplay principal du jeu consiste à placer des bombes pour détruire les ennemis et détruire les obstacles tout en évitant d'être affecté par les explosions de bombes. Le projet est développé en langage Java et utilise la technologie Sprite pour obtenir des graphismes de jeu dynamiques.
+
+\indent En termes de mise en œuvre technique, ce projet exploite pleinement les capacités de programmation orientée objet de Java en concevant des structures de classes détaillées pour gérer diverses entités du jeu, telles que les joueurs, les bombes, les monstres et les obstacles. Les sprites sont utilisés pour créer des animations fluides et répondre aux interactions des utilisateurs, améliorant ainsi les visuels du jeu.
+
+\indent L’un des principaux défis techniques auxquels nous avons été confrontés consistait à mettre en œuvre une logique de détection de collision efficace, qui a finalement été résolue par la prédiction des actions.
+
+\indent Grâce à ce projet, nous avons appris en profondeur divers aspects de la programmation Java et de la conception de jeux. J'ai notamment acquis une expérience précieuse dans l'optimisation des performances des jeux et la gestion des ressources. La résolution des problèmes rencontrés lors de la détection de collisions et de la mise en œuvre d'animations m'a permis de mieux comprendre la programmation événementielle.
 
 \end{document}

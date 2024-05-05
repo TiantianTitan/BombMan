@@ -74,7 +74,7 @@ monsterVelocity | 5                 |
 monsterInvisibilityTime | 1000              | 
 
 
-La clé player était obligatoire et sa valeur représentait les coordonnées (i et j) du joueur sur le premier niveau. Le fichier contenait des clés de la forme levelX où X représentait un numéro de niveau compris entre 1 et la valeur de la clé levels. La valeur associée à un niveau était une chaîne de caractères encodant le niveau avec ou sans compression (RLE) en fonction de la variable compression.
+La clé player était obligatoire et sa valeur représentait les coordonnées (i et j) du joueur sur le premier niveau. Le fichier contenait des clés de la forme levelX où X représentait un numéro de niveau compris entre 1 et la valeur de la clé levels. La valeur associée à un niveau était une chaîne de caractères encodant le niveau avec ou sans compression (RLE) en fonction de la variable compress ion.
 ## Gestion des portes
 
 Lorsque le joueur arrive sur la case d’une porte ouverte, il passe
