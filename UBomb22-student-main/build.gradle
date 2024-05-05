@@ -23,7 +23,7 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-mainClassName = 'fr.ubx.poo.ubomb.Main'
+mainClassName = 'fr.sorbonne.cpa.bombman.Main'
 
 javafx {
     version = '17'
