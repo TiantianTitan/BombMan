@@ -1,0 +1,31 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+group 'fr.ubx.poo.ubomb'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.googlecode.soundlibs:mp3spi:1.9.5.4'
+    implementation 'com.googlecode.soundlibs:jlayer:1.0.1.4'
+    implementation 'com.googlecode.soundlibs:tritonus-share:0.3.7.4'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+mainClassName = 'fr.sorbonne.cpa.bombman.Main'
+
+javafx {
+    version = '17'
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.media'] // Added javafx.media here
+}

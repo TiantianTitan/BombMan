@@ -1,0 +1,29 @@
+.statusBar {
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 5px 0 0 0;
+}
+
+.level {
+    -fx-padding: 5px 10px 5px 10px;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 0 5px 0 0;
+}
+
+.status {
+    -fx-padding: 5px 15px 5px 15px;
+}
+
+.number {
+    -fx-font-size: 28;
+    -fx-font-weight: bold;
+}
+
+.message {
+    -fx-font-size: 60;
+    -fx-font-width: bold;
+    -fx-padding: 50px;
+    -fx-font-family: Verdana;
+    -fx-fill: brown;
+}
