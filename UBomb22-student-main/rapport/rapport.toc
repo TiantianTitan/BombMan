@@ -1,0 +1,9 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {2}Architecture}{3}{section.2}%
+\contentsline {section}{\numberline {3}Présentation Visuelle}{6}{section.3}%
+\contentsline {section}{\numberline {4}Algorithme}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Map Compression/Decompression}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}IA pour Monstres}{6}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Gestion de Collisions}{7}{section.5}%
+\contentsfinish 
